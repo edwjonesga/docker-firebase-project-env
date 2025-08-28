@@ -19,7 +19,7 @@ Instead of cloning the entire repository, you can use `git sparse-checkout` to g
 
 3.  **Add the remote repository (replace with the actual URL):**
     ```bash
-    git remote add origin https://github.com/edwjonesga/scholastic
+    git remote add origin https://github.com/edwjonesga/docker-firebase-project-env
     ```
 
 4.  **Enable sparse checkout and pull the template directory:**
