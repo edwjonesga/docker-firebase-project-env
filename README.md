@@ -1,7 +1,62 @@
 # Firebase Project Environment
 
 This directory contains a Docker-based environment for quickly setting up a new Firebase project. It includes all the necessary tools and scripts to get you started in minutes.
+## Prerequisites
 
+* **Docker** must be installed on your system. You can get it from the official [Docker website](https://www.docker.com/get-started).
+* **Git** must be installed on your system. Follow the instructions below for your operating system:
+
+### Installing Git
+
+#### **For Windows:**
+
+1. Go to the official [Git for Windows download page](https://git-scm.com/download/win).
+2. The installer will automatically download. Run the installer once it's finished.
+3. Follow the on-screen instructions to complete the installation. You can leave most settings as default.
+4. Once the installation is complete, you can verify that Git is installed by opening Command Prompt (or Git Bash) and typing:
+
+   ```bash
+   git --version
+   ```
+
+#### **For macOS:**
+
+1. You can install Git using Homebrew. If Homebrew is not already installed, you can install it by running the following command:
+
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+2. Once Homebrew is installed, run the following command to install Git:
+
+   ```bash
+   brew install git
+   ```
+3. Alternatively, you can install Git via the Xcode command line tools:
+
+   ```bash
+   xcode-select --install
+   ```
+4. Once the installation is complete, you can verify that Git is installed by typing:
+
+   ```bash
+   git --version
+   ```
+
+#### **For Linux (Ubuntu/Debian-based):**
+
+1. Open a terminal window and run the following commands:
+
+   ```bash
+   sudo apt update
+   sudo apt install git
+   ```
+2. Once the installation is complete, verify that Git is installed:
+
+   ```bash
+   git --version
+   ```
+
+---
 ## How to Use This Template
 
 Instead of cloning the entire repository, you can use `git sparse-checkout` to get only this template directory.
