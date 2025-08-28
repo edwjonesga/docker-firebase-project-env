@@ -72,7 +72,7 @@ Instead of cloning the entire repository, you can use `git sparse-checkout` to g
     git init
     ```
 
-3.  **Add the remote repository (replace with the actual URL):**
+3.  **Add the remote repository:**
     ```bash
     git remote add origin https://github.com/edwjonesga/docker-firebase-project-env
     ```
