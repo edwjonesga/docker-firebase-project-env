@@ -59,21 +59,40 @@ Before you begin, ensure you have the following tools installed on your system.
 
 ---
 
-## How to Get the Code
+## How to Create Your Own Project from this Template
 
-To get started, clone the repository to your local machine.
+Follow these steps to get a clean copy of the project files, ready to be used in your own new, independent repository.
 
-1.  **Clone the repository into a new directory (e.g., `my-new-firebase-project`):**
+1.  **Clone the template repository:**
+    This command downloads the files into a new folder named `my-new-firebase-project`.
     ```bash
     git clone https://github.com/edwjonesga/docker-firebase-project-env.git my-new-firebase-project
     ```
 
-2.  **Navigate into the newly created project directory:**
+2.  **Navigate into the new directory:**
     ```bash
     cd my-new-firebase-project
     ```
 
-You now have a local copy of all the necessary files and can proceed with the setup instructions below.
+3.  **Remove the template's git history:**
+    This is a crucial step to disconnect your new project from the template.
+    ```bash
+    rm -rf .git
+    ```
+
+4.  **Initialize a new, empty repository:**
+    Now you can start fresh with your own version history.
+    ```bash
+    git init -b main
+    ```
+
+5.  **(Optional) Add your own remote repository:**
+    If you have already created a new repository on a platform like GitHub, you can link it now.
+    ```bash
+    # git remote add origin <your-new-repository-url>
+    ```
+
+You now have a fresh project, ready for you to customize and push to your own repository. You can proceed with the setup instructions in the "Getting Started" section below.
 
 ---
 
