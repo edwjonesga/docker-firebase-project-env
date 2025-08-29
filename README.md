@@ -59,40 +59,21 @@ Before you begin, ensure you have the following tools installed on your system.
 
 ---
 
-## How to Use This Template
+## How to Get the Code
 
-Instead of cloning the entire repository, you can use `git sparse-checkout` to get only this template directory. This allows you to fetch just the project setup files without the entire repository history.
+To get started, clone the repository to your local machine.
 
-1.  **Create a new directory for your project and navigate into it:**
+1.  **Clone the repository into a new directory (e.g., `my-new-firebase-project`):**
     ```bash
-    mkdir my-new-firebase-project
+    git clone https://github.com/edwjonesga/docker-firebase-project-env.git my-new-firebase-project
+    ```
+
+2.  **Navigate into the newly created project directory:**
+    ```bash
     cd my-new-firebase-project
     ```
 
-2.  **Initialize a git repository with a `main` branch:**
-    ```bash
-    git init -b main
-    ```
-
-3.  **Add the remote repository:**
-    ```bash
-    git remote add origin https://github.com/edwjonesga/docker-firebase-project-env
-    ```
-
-4.  **Enable sparse checkout and pull the template directory:**
-    ```bash
-    git config core.sparseCheckout true
-    echo "tools/docker-firebase-project-env/*" >> .git/info/sparse-checkout
-    git pull origin main # Or the correct default branch
-    ```
-
-5.  **Move the contents to your project root:**
-    ```bash
-    mv tools/docker-firebase-project-env/* .
-    rm -rf tools
-    ```
-
-Now you have a clean copy of the template in your project directory, and you can proceed with the setup instructions below.
+You now have a local copy of all the necessary files and can proceed with the setup instructions below.
 
 ---
 
