@@ -52,6 +52,10 @@ then
     echo "Installing dependencies..."
     npm install
 
+    # Install Firebase SDK and save it to package.json
+    echo "Installing Firebase SDK..."
+    npm install firebase --save
+
     # Create vite.config.js
     echo "Creating vite.config.js..."
     cat > vite.config.js <<'EOF'
