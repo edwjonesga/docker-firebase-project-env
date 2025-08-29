@@ -69,9 +69,9 @@ Instead of cloning the entire repository, you can use `git sparse-checkout` to g
     cd my-new-firebase-project
     ```
 
-2.  **Initialize a git repository:**
+2.  **Initialize a git repository with a `main` branch:**
     ```bash
-    git init
+    git init -b main
     ```
 
 3.  **Add the remote repository:**
