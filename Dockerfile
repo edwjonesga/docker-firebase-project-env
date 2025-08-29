@@ -1,11 +1,11 @@
 # Use a Node.js base image
-FROM node:18-bullseye
+FROM node:22-bullseye
 
 # Set the working directory
 WORKDIR /app
 
-# Install Python and pip
-RUN apt-get update && apt-get install -y python3 python3-pip python3-venv openjdk-11-jre
+# Install dependencies
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv openjdk-11-jre jq
 
 # Install Firebase CLI
 RUN npm install -g firebase-tools

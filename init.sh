@@ -15,6 +15,22 @@ echo "Please follow the prompts from the Firebase CLI."
 echo ""
 firebase init
 
+# Configure emulator hosts to be accessible outside the container
+if [ -f "firebase.json" ]; then
+    echo "Configuring emulator hosts in firebase.json to use 0.0.0.0 for external access..."
+    # Use jq to add or update the host for every emulator defined.
+    # This ensures the emulators are accessible from the host machine.
+    if command -v jq &> /dev/null
+    then
+        # This command checks if the .emulators key exists.
+        # If it does, it uses map_values to iterate over each emulator's configuration object
+        # and merges it with `{"host": "0.0.0.0"}`, adding or overwriting the host key.
+        jq 'if .emulators then .emulators |= map_values(. + {"host": "0.0.0.0"}) else . end' firebase.json > firebase.json.tmp && mv firebase.json.tmp firebase.json
+    else
+        echo "Warning: jq is not installed. Cannot configure emulator hosts automatically."
+    fi
+fi
+
 # Completion message
 echo ""
 echo "Firebase project initialization is complete!"
