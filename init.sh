@@ -22,10 +22,11 @@ if [ -f "firebase.json" ]; then
     # This ensures the emulators are accessible from the host machine.
     if command -v jq &> /dev/null
     then
-        # This command checks if the .emulators key exists.
-        # If it does, it uses map_values to iterate over each emulator's configuration object
-        # and merges it with `{"host": "0.0.0.0"}`, adding or overwriting the host key.
-        jq 'if .emulators then .emulators |= map_values(. + {"host": "0.0.0.0"}) else . end' firebase.json > firebase.json.tmp && mv firebase.json.tmp firebase.json
+        # This command robustly modifies the firebase.json file.
+        # It iterates over all values in the .emulators object.
+        # If a value is an object (i.e., a configurable emulator), it adds/updates its host.
+        # If a value is not an object (e.g., "ui": true), it is ignored.
+        jq 'if .emulators then .emulators |= map_values(if type == "object" then . + {"host": "0.0.0.0"} else . end) else . end' firebase.json > firebase.json.tmp && mv firebase.json.tmp firebase.json
     else
         echo "Warning: jq is not installed. Cannot configure emulator hosts automatically."
     fi
