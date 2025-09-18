@@ -4,14 +4,25 @@ FROM node:22-bullseye
 # Set the working directory
 WORKDIR /app
 
-# Install dependencies
-RUN apt-get update && apt-get install -y python3 python3-pip python3-venv openjdk-11-jre jq
+# Install dependencies, including Python tools and Java for the OpenAPI Generator
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv openjdk-17-jre jq curl
 
 # Install Firebase CLI
 RUN npm install -g firebase-tools
 
 # Install Vite
 RUN npm install -g vite
+
+# --- Add OpenAPI Generator CLI ---
+# Download the OpenAPI Generator JAR file
+ENV OPENAPI_GENERATOR_VERSION=7.0.1
+RUN curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/${OPENAPI_GENERATOR_VERSION}/openapi-generator-cli-${OPENAPI_GENERATOR_VERSION}.jar -o /usr/local/bin/openapi-generator-cli.jar
+
+# Create a shell script to make the tool easy to run
+RUN echo '#!/bin/sh' > /usr/local/bin/openapi-generator-cli && \
+    echo 'java -jar /usr/local/bin/openapi-generator-cli.jar "$@"' >> /usr/local/bin/openapi-generator-cli && \
+    chmod +x /usr/local/bin/openapi-generator-cli
+# -----------------------------------
 
 # Copy the rest of the application code
 COPY . .
