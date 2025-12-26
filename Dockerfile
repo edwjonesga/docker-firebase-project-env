@@ -24,6 +24,18 @@ RUN echo '#!/bin/sh' > /usr/local/bin/openapi-generator-cli && \
     chmod +x /usr/local/bin/openapi-generator-cli
 # -----------------------------------
 
+# --- Add Flutter SDK ---
+# Download the Flutter SDK
+ENV FLUTTER_VERSION=3.38.0
+RUN curl -L https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz -o /tmp/flutter.tar.xz
+
+# Extract the Flutter SDK
+RUN tar -xf /tmp/flutter.tar.xz -C /usr/local/
+
+# Add Flutter to the PATH
+ENV PATH="$PATH:/usr/local/flutter/bin"
+# ---------------------
+
 # Copy the rest of the application code
 COPY . .
 

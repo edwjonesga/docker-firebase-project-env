@@ -37,126 +37,40 @@ echo ""
 echo "Firebase project initialization is complete!"
 echo ""
 
-# Ask about Preact frontend
-read -p "Do you want to set up a Preact application for Firebase Hosting? (y/n) " -n 1 -r
-echo ""
-if [[ $REPLY =~ ^[Yy]$ ]]
+# Check for flags
+if [[ "$1" == "--preact" ]]
 then
-    echo "Setting up Preact application..."
-
-    # Check for firebase.json
-    if [ ! -f "firebase.json" ]; then
-        echo "firebase.json not found. Please make sure you initialized Firebase correctly."
-        exit 1
-    fi
-
-    # Check for hosting configuration
-    if ! grep -q '"hosting"' firebase.json; then
-        echo "No hosting configuration found in firebase.json. Initializing now..."
-        firebase init hosting
-    fi
-
-    # Create preact-app directory
-    echo "Creating preact-app directory..."
-    mkdir preact-app
-    cd preact-app
-
-    # Initialize Vite Preact project
-    echo "Initializing Vite + Preact project..."
-    npm create vite@latest . -- --template preact
-
-    # Install dependencies
-    echo "Installing dependencies..."
-    npm install
-
-    # Install Firebase SDK and save it to package.json
-    echo "Installing Firebase SDK..."
-    npm install firebase --save
-
-    # Create vite.config.js
-    echo "Creating vite.config.js..."
-    cat > vite.config.js <<'EOF'
-import { defineConfig } from 'vite'
-import preact from '@preact/preset-vite'
-
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [preact()],
-  build: {
-    outDir: '../public',
-    emptyOutDir: true,
-    rollupOptions: {
-        output: {
-            entryFileNames: 'bundle.js',
-            assetFileNames: 'assets/[name].[ext]'
-        }
-    }
-  }
-})
-EOF
-
-    # Create firebase.js
-    echo "Creating src/firebase.js with emulator support..."
-    cat > src/firebase.js <<'EOF'
-import { initializeApp } from "firebase/app";
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
-import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
-
-// TODO: Replace with your web app's Firebase configuration.
-// You can get this from the Firebase console, or by running:
-// firebase apps:sdkconfig WEB <your-app-id>
-const firebaseConfig = {
-  apiKey: "your-api-key",
-  authDomain: "your-auth-domain",
-  projectId: "your-project-id",
-  storageBucket: "your-storage-bucket",
-  messagingSenderId: "your-messaging-sender-id",
-  appId: "your-app-id"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const functions = getFunctions(app);
-const auth = getAuth(app);
-
-// Connect to emulators if running locally
-if (window.location.hostname === "localhost") {
-  console.log("Development mode: Connecting to local Firebase emulators...");
-  connectFirestoreEmulator(db, 'localhost', 8080);
-  connectFunctionsEmulator(functions, 'localhost', 5001);
-  connectAuthEmulator(auth, 'http://localhost:9099');
-} else {
-  console.log("Production mode: Connecting to live Firebase services.");
-}
-
-export { app, db, functions, auth };
-EOF
-
-    # Import firebase.js into main.jsx
-    echo "Importing firebase.js into src/main.jsx..."
-    echo "import './firebase.js';" | cat - src/main.jsx > temp && mv temp src/main.jsx
-
-    echo "Preact application setup complete!"
-    echo "You can run 'npm run dev' in the 'preact-app' directory to start the dev server."
-    echo "Run 'npm run build' to build your app for production."
-    cd ..
+    ./init-preact.sh
+elif [[ "$1" == "--flutter" ]]
+then
+    ./init-flutter.sh
 fi
 
 echo ""
-echo "Generating helper scripts (build.sh, run.sh, run-vite.sh, deploy.sh)..."
+echo "Generating helper scripts..."
 
 # Create build.sh
 cat > build.sh <<'EOF'
 #!/bin/bash
-# This script builds the frontend application.
-echo "Building Preact app..."
+# This script builds the frontend application(s).
+
+# Clear the public directory
+rm -rf public/*
+
+# Build Preact app if it exists
 if [ -d "preact-app" ]; then
+  echo "Building Preact app..."
   (cd preact-app && npm install && npm run build)
-  echo "Build complete. The output is in the 'public' directory."
-else
-  echo "preact-app directory not found."
+  echo "Preact build complete. The output is in the 'public' directory."
+fi
+
+# Build Flutter app if it exists
+if [ -d "flutter_app" ]; then
+  echo "Building Flutter app..."
+  (cd flutter_app && flutter build web)
+  # Copy the Flutter web build to the public directory
+  cp -r flutter_app/build/web/* public/
+  echo "Flutter build complete. The output has been copied to the 'public' directory."
 fi
 EOF
 chmod +x build.sh
@@ -169,26 +83,6 @@ echo "Starting Firebase emulators..."
 firebase emulators:start
 EOF
 chmod +x run.sh
-
-# Create run-vite.sh
-cat > run-vite.sh <<'EOF'
-#!/bin/bash
-# This script starts the Firebase emulators and the Vite dev server.
-echo "Starting Firebase emulators in the background..."
-firebase emulators:start --non-interactive &
-EMULATOR_PID=$!
-
-if [ -d "preact-app" ]; then
-  echo "Starting Vite dev server..."
-  (cd preact-app && npm run dev)
-else
-  echo "preact-app directory not found."
-fi
-
-# Kill the emulators when the script exits
-kill $EMULATOR_PID
-EOF
-chmod +x run-vite.sh
 
 # Create deploy.sh
 cat > deploy.sh <<'EOF'
