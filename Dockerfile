@@ -4,8 +4,16 @@ FROM node:22-bullseye
 # Set the working directory
 WORKDIR /app
 
-# Install dependencies, including Python tools and Java for the OpenAPI Generator
-RUN apt-get update && apt-get install -y python3 python3-pip python3-venv openjdk-17-jre jq curl
+# Install dependencies
+RUN apt-get update && apt-get install -y jq curl
+
+# --- Add OpenJDK 21 ---
+ENV JAVA_VERSION=21.0.8
+RUN curl -L https://download.oracle.com/java/21/archive/jdk-${JAVA_VERSION}_linux-x64_bin.tar.gz -o /tmp/openjdk-21.tar.gz
+RUN tar -xf /tmp/openjdk-21.tar.gz -C /usr/local/
+ENV JAVA_HOME=/usr/local/jdk-${JAVA_VERSION}
+ENV PATH="$JAVA_HOME/bin:$PATH"
+# --------------------
 
 # Install Firebase CLI
 RUN npm install -g firebase-tools
