@@ -5,14 +5,16 @@ FROM node:22-bullseye
 WORKDIR /app
 
 # Install dependencies
-RUN apt-get update && apt-get install -y jq curl
+RUN apt-get update && apt-get install -y jq curl wget
 
 # --- Add OpenJDK 21 ---
-ENV JAVA_VERSION=21.0.8
-RUN curl -L https://download.oracle.com/java/21/archive/jdk-${JAVA_VERSION}_linux-x64_bin.tar.gz -o /tmp/openjdk-21.tar.gz
-RUN tar -xf /tmp/openjdk-21.tar.gz -C /usr/local/
-ENV JAVA_HOME=/usr/local/jdk-${JAVA_VERSION}
+ENV JAVA_HOME=/opt/jdk-21
 ENV PATH="$JAVA_HOME/bin:$PATH"
+RUN wget https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.5%2B11/OpenJDK21U-jdk_x64_linux_hotspot_21.0.5_11.tar.gz -O /tmp/openjdk.tar.gz && \
+    mkdir -p "$JAVA_HOME" && \
+    tar -xzf /tmp/openjdk.tar.gz -C "$JAVA_HOME" --strip-components=1 && \
+    rm /tmp/openjdk.tar.gz
+RUN java -version
 # --------------------
 
 # Install Firebase CLI
