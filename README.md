@@ -60,7 +60,8 @@ Before you begin, ensure you have the following tools installed on your system.
 ---
 
 ## How to Create Your Own Project from this Template
-
+<details>
+<summary>Click to expand to start a project from scratch (i.e you have nothing)</summary>
 Follow these steps to get a clean copy of the project files, ready to be used in your own new, independent repository.
 
 1.  **Clone the template repository:**
@@ -93,12 +94,15 @@ Follow these steps to get a clean copy of the project files, ready to be used in
     ```
 
 You now have a fresh project, ready for you to customize and push to your own repository. You can proceed with the setup instructions in the "Getting Started" section below.
-
 ---
+</details>
+
 
 ## Getting Started
 
 Follow the instructions for your operating system to set up your Firebase project.
+
+**NOTE**: Use this if you are joining a project that someone else has already setup.
 
 ### For macOS & Linux
 
@@ -145,7 +149,7 @@ For the best experience on Windows, we **strongly recommend using Git Bash**, wh
 #### Option 1: Recommended (Using Git Bash)
 
 1.  **Open Git Bash:** Right-click in your project folder and select "Git Bash Here".
-2.  **Run the scripts:** Follow the same instructions as for macOS & Linux, but execute them inside the Git Bash terminal.
+2.  **Run the scripts:** Follow the same instructions as for macOS & Linux, but execute them inside the Git Bash terminal. **Note:** GitBash may require modifying the scripts particularly with mounting the volumen into the container in the build-container.sh script. So ask your favorite AI chatbot for help with that. :-) Feel free to create separate scripts if you're working with other teammates who don't use git bash. 
     ```bash
     # In Git Bash
     ./build-container.sh
@@ -175,14 +179,14 @@ The `start-container.sh` script uses `$(pwd)`, which needs to be adapted for you
 docker run -it -p 4000:4000 -p 5000:5000 -p 5001:5001 -p 8080:8080 -p 8085:8085 -p 9000:9000 -p 9099:9099 -p 9199:9199 -v "${PWD}:/app" firebase-project-env
 ```
 
-**3. Start the Docker Container (Command Prompt):**
+**2. Start the Docker Container (Command Prompt):**
 
 ```cmd
 :: In Command Prompt
 docker run -it -p 4000:4000 -p 5000:5000 -p 5001:5001 -p 8080:8080 -p 8085:8085 -p 9000:9000 -p 9099:9099 -p 9199:9199 -v "%CD%:/app" firebase-project-env
 ```
 
-**4. Initialize Your Firebase Project:**
+**3. Initialize Your Firebase Project:**
 
 The `init.sh` script is complex and contains Linux-specific commands. It is **highly recommended** to run it from within the container as instructed, or by using Git Bash if you need to run it from the host.
 
