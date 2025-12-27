@@ -149,7 +149,7 @@ For the best experience on Windows, we **strongly recommend using Git Bash**, wh
 #### Option 1: Recommended (Using Git Bash)
 
 1.  **Open Git Bash:** Right-click in your project folder and select "Git Bash Here".
-2.  **Run the scripts:** Follow the same instructions as for macOS & Linux, but execute them inside the Git Bash terminal. **Note:** GitBash may require modifying the scripts particularly with mounting the volumen into the container in the build-container.sh script. So ask your favorite AI chatbot for help with that. :-) Feel free to create separate scripts if you're working with other teammates who don't use git bash. 
+2.  **Run the scripts:** Follow the same instructions as for macOS & Linux, but execute them inside the Git Bash terminal. **Note:** GitBash may require modifying the scripts particularly with mounting the volume into the container in the build-container.sh script. So ask your favorite AI chatbot for help with that. :-) Feel free to create separate scripts if you're working with other teammates who don't use git bash. 
     ```bash
     # In Git Bash
     ./build-container.sh
